@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Bring your ideas online with a beautiful, easy-to-build website.">
+  <title>Forma — Make a website your own</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #171714;
+      --paper: #f4f1eb;
+      --muted: #aaa99f;
+      --lime: #f2a9c2;
+      --green: #b8d8a2;
+      --serif: "Iowan Old Style", "Baskerville Old Face", "Times New Roman", serif;
+      --sans: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--sans);
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; }
+    .hero {
+      min-height: 760px;
+      overflow: hidden;
+      background: var(--paper);
+      color: var(--ink);
+      position: relative;
+    }
+    .topbar {
+      height: 88px;
+      padding: 0 5.2%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: relative;
+      z-index: 2;
+    }
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 19px;
+      font-weight: 700;
+      letter-spacing: -.07em;
+    }
+    .brand-mark {
+      width: 27px;
+      height: 27px;
+      border: 1px solid currentColor;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font-family: var(--serif);
+      font-size: 19px;
+      font-weight: 400;
+      font-style: italic;
+      letter-spacing: -.1em;
+      padding-right: 3px;
+    }
+    .nav-links { display: flex; align-items: center; gap: 35px; }
+    .nav-links a, .login-link {
+      font-size: 12px;
+      color: #55544d;
+      transition: color .2s ease;
+    }
+    .nav-links a:hover, .login-link:hover { color: #c45178; }
+    .nav-cta {
+      padding: 12px 17px;
+      border: 1px solid var(--green);
+      border-radius: 3px;
+      background: var(--green);
+      color: var(--ink) !important;
+      transition: background .2s ease, border-color .2s ease;
+    }
+    .nav-cta:hover { background: #a5cb8c; border-color: #a5cb8c; }
+    .menu-toggle {
+      display: none;
+      color: #fff;
+      border: 0;
+      background: transparent;
+      padding: 8px;
+      cursor: pointer;
+    }
+    .hero-copy {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      max-width: 900px;
+      margin: 64px auto 0;
+      padding: 0 24px;
+    }
+    .eyebrow {
+      margin: 0 0 27px;
+      color: #687a2e;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+    }
+    h1 {
+      max-width: 850px;
+      margin: 0 auto;
+      font-size: clamp(46px, 7.1vw, 88px);
+      font-weight: 400;
+      letter-spacing: -.075em;
+      line-height: .99;
+    }
+    h1 em { font-family: var(--serif); font-weight: 400; }
+    .hero-description {
+      max-width: 550px;
+      margin: 26px auto 0;
+      color: #626159;
+      font-size: 15px;
+      line-height: 1.65;
+    }
+    .hero-actions {
+      margin-top: 31px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 22px;
+    }
+    .button-primary {
+      min-height: 48px;
+      padding: 0 23px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      border: 0;
+      border-radius: 3px;
+      background: var(--lime);
+      color: #141510;
+      font-size: 12px;
+      font-weight: 650;
+      cursor: pointer;
+      transition: background .2s ease, transform .2s ease;
+    }
+    .button-primary:hover { background: #f7bfd1; transform: translateY(-2px); }
+    .hero-note { color: #77766e; font-size: 11px; }
+    .template-ribbon {
+      display: flex;
+      justify-content: center;
+      gap: 22px;
+      width: max-content;
+      margin: 77px auto 0;
+      transform: translateX(1%);
+    }
+    .mini-site {
+      position: relative;
+      width: 310px;
+      height: 193px;
+      overflow: hidden;
+      padding: 15px;
+      color: #f7f3e9;
+      flex: none;
+      isolation: isolate;
+    }
+    .mini-site::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -2;
+      background-image: var(--image);
+      background-size: cover;
+      background-position: center;
+      transition: transform .7s ease;
+    }
+    .mini-site:hover::before { transform: scale(1.06); }
+    .mini-site::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: linear-gradient(180deg, rgba(0,0,0,.08), rgba(0,0,0,.58));
+    }
+    .mini-site:nth-child(1) { --image: url("https://images.unsplash.com/photo-1494438639946-1ebd1d20bf85?auto=format&fit=crop&w=900&q=85"); }
+    .mini-site:nth-child(2) { --image: url("https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?auto=format&fit=crop&w=900&q=85"); }
+    .mini-site:nth-child(3) { --image: url("https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=900&q=85"); }
+    .mini-site:nth-child(4) { --image: url("https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=900&q=85"); }
+    .mini-site:nth-child(5) { --image: url("https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=900&q=85"); }
+    .mini-topline {
+      display: flex;
+      justify-content: space-between;
+      font-size: 7px;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+    .mini-title {
+      position: absolute;
+      left: 17px;
+      bottom: 19px;
+      margin: 0;
+      font-family: var(--serif);
+      font-size: 30px;
+      font-weight: 400;
+      letter-spacing: -.04em;
+      line-height: .95;
+    }
+    .mini-title small {
+      display: block;
+      margin-top: 7px;
+      font-family: var(--sans);
+      font-size: 7px;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+    }
+    .section { padding: 112px 7%; }
+    .section-head {
+      max-width: 760px;
+      margin: 0 auto 48px;
+      text-align: center;
+    }
+    .section-label {
+      margin: 0 0 17px;
+      color: #6b6a61;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: .17em;
+      text-transform: uppercase;
+    }
+    h2 {
+      margin: 0;
+      font-size: clamp(38px, 5.5vw, 65px);
+      font-weight: 400;
+      letter-spacing: -.07em;
+      line-height: 1;
+    }
+    .section-intro {
+      max-width: 475px;
+      margin: 19px auto 0;
+      color: #67665f;
+      font-size: 14px;
+      line-height: 1.65;
+    }
+    .filters {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 9px;
+      margin: 0 0 28px;
+    }
+    .filter-button {
+      padding: 9px 14px;
+      border: 1px solid #cfcdc4;
+      border-radius: 30px;
+      background: transparent;
+      color: #4f4e47;
+      font-size: 11px;
+      cursor: pointer;
+      transition: all .2s ease;
+    }
+    .filter-button:hover, .filter-button[aria-pressed="true"] {
+      border-color: var(--ink);
+      background: var(--ink);
+      color: white;
+    }
+    .template-grid {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+    .template-card { min-width: 0; }
+    .template-preview {
+      height: 270px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #d5d0c4;
+      isolation: isolate;
+    }
+    .template-preview::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background-image: var(--image);
+      background-size: cover;
+      background-position: center;
+      transition: transform .6s ease;
+    }
+    .template-card:hover .template-preview::before { transform: scale(1.045); }
+    .template-preview::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(0,0,0,.12), rgba(0,0,0,.25));
+      z-index: -1;
+    }
+    .template-preview span {
+      color: white;
+      font-family: var(--serif);
+      font-size: clamp(30px, 4vw, 48px);
+      letter-spacing: -.06em;
+      text-align: center;
+      text-shadow: 0 2px 18px rgba(0,0,0,.18);
+    }
+    .template-card:nth-child(1) .template-preview { --image: url("https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=900&q=85"); }
+    .template-card:nth-child(2) .template-preview { --image: url("https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=900&q=85"); }
+    .template-card:nth-child(3) .template-preview { --image: url("https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=900&q=85"); }
+    .template-card:nth-child(4) .template-preview { --image: url("https://images.unsplash.com/photo-1544787219-7f47ccb76574?auto=format&fit=crop&w=900&q=85"); }
+    .template-card:nth-child(5) .template-preview { --image: url("https://images.unsplash.com/photo-1531058020387-3be344556be6?auto=format&fit=crop&w=900&q=85"); }
+    .template-card:nth-child(6) .template-preview { --image: url("https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=900&q=85"); }
+    .template-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 13px 1px 3px;
+      font-size: 12px;
+    }
+    .template-meta span:last-child { color: #77766e; font-size: 10px; }
+    .features {
+      padding: 105px 7%;
+      background: #e8e5dc;
+    }
+    .features-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      gap: 9%;
+    }
+    .feature-art {
+      min-height: 450px;
+      position: relative;
+      background: #85856a url("https://images.unsplash.com/photo-1494438639946-1ebd1d20bf85?auto=format&fit=crop&w=1200&q=85") center/cover;
+    }
+    .feature-sticker {
+      position: absolute;
+      right: -23px;
+      bottom: 27px;
+      width: 120px;
+      height: 120px;
+      padding: 20px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--lime);
+      font-family: var(--serif);
+      font-size: 20px;
+      line-height: 1;
+      text-align: center;
+      transform: rotate(9deg);
+    }
+    .feature-copy h2 { max-width: 500px; }
+    .feature-copy > p:not(.section-label) {
+      max-width: 445px;
+      margin: 24px 0;
+      color: #68675e;
+      font-size: 14px;
+      line-height: 1.75;
+    }
+    .feature-list {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      border-top: 1px solid #c9c6bc;
+    }
+    .feature-list li {
+      padding: 13px 0;
+      border-bottom: 1px solid #c9c6bc;
+      font-size: 12px;
+    }
+    .feature-list li::before { content: "↗"; margin-right: 12px; }
+    .closing {
+      padding: 100px 24px 110px;
+      background: var(--paper);
+      color: var(--ink);
+      text-align: center;
+    }
+    .closing h2 { max-width: 690px; margin: 0 auto; }
+    .closing p {
+      margin: 20px 0 26px;
+      color: #68675f;
+      font-size: 13px;
+    }
+    footer {
+      min-height: 90px;
+      padding: 24px 5.2%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      background: var(--paper);
+      color: #68675f;
+      border-top: 1px solid #d4d0c6;
+      font-size: 10px;
+    }
+    .footer-links { display: flex; gap: 20px; }
+    .footer-links a:hover { color: #c45178; }
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    @media (min-width: 1500px) {
+      .hero { min-height: 820px; }
+      .hero-copy { margin-top: 80px; }
+      .template-ribbon { margin-top: 90px; }
+    }
+    @media (max-width: 760px) {
+      .hero { min-height: 725px; }
+      .topbar { height: 72px; padding: 0 6%; }
+      .menu-toggle { display: block; font-size: 22px; }
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 63px;
+        left: 5%;
+        right: 5%;
+        padding: 22px;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 22px;
+        background: #e8e5dc;
+      }
+      .nav-links.is-open { display: flex; }
+      .nav-cta { text-align: center; }
+      .hero-copy { margin-top: 72px; }
+      .hero-description { font-size: 14px; }
+      .hero-actions { flex-direction: column; gap: 12px; }
+      .template-ribbon { margin-top: 64px; gap: 12px; }
+      .mini-site { width: 250px; height: 160px; }
+      .section { padding: 82px 6%; }
+      .template-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px 12px; }
+      .template-preview { height: 220px; }
+      .features { padding: 75px 6%; }
+      .features-inner { grid-template-columns: 1fr; gap: 48px; }
+      .feature-art { min-height: 360px; margin-right: 18px; }
+    }
+    @media (max-width: 460px) {
+      .hero { min-height: 680px; }
+      .hero-copy { margin-top: 62px; }
+      .eyebrow { margin-bottom: 21px; }
+      .template-grid { grid-template-columns: 1fr; }
+      .template-preview { height: 260px; }
+      .feature-art { min-height: 300px; }
+      footer { align-items: flex-start; flex-direction: column; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <header class="hero" id="top">
+    <nav class="topbar" aria-label="Main navigation">
+      <a class="brand" href="#top" aria-label="Forma home">
+        <span class="brand-mark" aria-hidden="true">f</span>forma
+      </a>
+      <button class="menu-toggle" type="button" aria-label="Open navigation" aria-expanded="false" aria-controls="main-links">☰</button>
+      <div class="nav-links" id="main-links">
+        <a href="#templates">Templates</a>
+        <a href="#features">How it works</a>
+        <a class="login-link" href="#start">Log in</a>
+        <a class="nav-cta" href="#start">Get started <span aria-hidden="true">↗</span></a>
+      </div>
+    </nav>
+
+    <div class="hero-copy">
+      <p class="eyebrow">Your idea, out in the world</p>
+      <h1>Make a website<br>that feels like <em>you.</em></h1>
+      <p class="hero-description">A little inspiration, a few good choices, and you're online. Create a beautiful home for whatever you're dreaming up.</p>
+      <div class="hero-actions">
+        <a class="button-primary" href="#templates">Explore the templates <span aria-hidden="true">↗</span></a>
+        <span class="hero-note">Start free · No credit card needed</span>
+      </div>
+    </div>
+
+    <div class="template-ribbon" aria-label="A preview of website designs">
+      <article class="mini-site">
+        <div class="mini-topline"><span>Studio / 01</span><span>Shop</span></div>
+        <p class="mini-title">Objects<br>of desire<small>Thoughtfully made</small></p>
+      </article>
+      <article class="mini-site">
+        <div class="mini-topline"><span>Fieldnotes</span><span>Est. 2024</span></div>
+        <p class="mini-title">A slower<br>kind of living<small>Travel · Journal · Stay</small></p>
+      </article>
+      <article class="mini-site">
+        <div class="mini-topline"><span>Atelier No. 8</span><span>Menu</span></div>
+        <p class="mini-title">Made with<br>intention<small>Independent creative studio</small></p>
+      </article>
+      <article class="mini-site">
+        <div class="mini-topline"><span>Good table</span><span>Reserve</span></div>
+        <p class="mini-title">Gather<br>around<small>Seasonal kitchen & wine</small></p>
+      </article>
+      <article class="mini-site">
+        <div class="mini-topline"><span>Somewhere</span><span>Explore</span></div>
+        <p class="mini-title">Find your<br>own way<small>Places worth the journey</small></p>
+      </article>
+    </div>
+  </header>
+
+  <main>
+    <section class="section" id="templates">
+      <div class="section-head">
+        <p class="section-label">A good place to begin</p>
+        <h2>Made for your kind of thing.</h2>
+        <p class="section-intro">Start with a design you love, then make every detail your own. No blank page, no technical know-how required.</p>
+      </div>
+      <div class="filters" role="group" aria-label="Filter templates">
+        <button class="filter-button" type="button" aria-pressed="true" data-filter="all">All designs</button>
+        <button class="filter-button" type="button" aria-pressed="false" data-filter="shops">Shops</button>
+        <button class="filter-button" type="button" aria-pressed="false" data-filter="creative">Creative</button>
+        <button class="filter-button" type="button" aria-pressed="false" data-filter="places">Places</button>
+      </div>
+      <div class="template-grid">
+        <article class="template-card" data-category="shops">
+          <div class="template-preview"><span>Found &<br>Form</span></div>
+          <div class="template-meta"><span>Found &amp; Form</span><span>Shop</span></div>
+        </article>
+        <article class="template-card" data-category="places">
+          <div class="template-preview"><span>Elsewhere,<br>slowly</span></div>
+          <div class="template-meta"><span>Elsewhere</span><span>Travel</span></div>
+        </article>
+        <article class="template-card" data-category="creative">
+          <div class="template-preview"><span>Common<br>Ground</span></div>
+          <div class="template-meta"><span>Common Ground</span><span>Portfolio</span></div>
+        </article>
+        <article class="template-card" data-category="shops">
+          <div class="template-preview"><span>Soft<br>Hours</span></div>
+          <div class="template-meta"><span>Soft Hours</span><span>Wellness</span></div>
+        </article>
+        <article class="template-card" data-category="creative">
+          <div class="template-preview"><span>Open<br>Studio</span></div>
+          <div class="template-meta"><span>Open Studio</span><span>Events</span></div>
+        </article>
+        <article class="template-card" data-category="places">
+          <div class="template-preview"><span>Room<br>&amp; Board</span></div>
+          <div class="template-meta"><span>Room &amp; Board</span><span>Business</span></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="features" id="features">
+      <div class="features-inner">
+        <div class="feature-art" role="img" aria-label="Warm, sunlit creative workspace">
+          <span class="feature-sticker">Made<br>to be<br>yours</span>
+        </div>
+        <div class="feature-copy">
+          <p class="section-label">Less setup. More you.</p>
+          <h2>Everything you need. Nothing you don't.</h2>
+          <p>Bring your whole idea together in one calm, considered place. Add your words and images, make it yours, and share it with the world.</p>
+          <ul class="feature-list">
+            <li>Beautiful starting points, easy to make your own</li>
+            <li>Looks just as good on a phone</li>
+            <li>Built-in tools to help you get found</li>
+            <li>Your own address on the internet</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="closing" id="start">
+      <p class="section-label">Your next chapter starts here</p>
+      <h2>Go on. Put your idea out there.</h2>
+      <p>Start free. Make something wonderful.</p>
+      <a class="button-primary" href="#templates">Find your starting point <span aria-hidden="true">↗</span></a>
+    </section>
+  </main>
+
+  <footer>
+    <a class="brand" href="#top"><span class="brand-mark" aria-hidden="true">f</span>forma</a>
+    <span>© 2026 Forma Studio</span>
+    <div class="footer-links">
+      <a href="#features">About</a>
+      <a href="#templates">Templates</a>
+      <a href="#top">Back to top ↑</a>
+    </div>
+  </footer>
+
+  <p class="sr-only" id="filter-status" aria-live="polite"></p>
+  <script>
+    const filterButtons = document.querySelectorAll(".filter-button");
+    const templateCards = document.querySelectorAll(".template-card");
+    const filterStatus = document.querySelector("#filter-status");
+    const menuToggle = document.querySelector(".menu-toggle");
+    const mainLinks = document.querySelector("#main-links");
+
+    filterButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        const filter = button.dataset.filter;
+        let visibleCount = 0;
+
+        filterButtons.forEach((item) => {
+          item.setAttribute("aria-pressed", String(item === button));
+        });
+        templateCards.forEach((card) => {
+          const isVisible = filter === "all" || card.dataset.category === filter;
+          card.hidden = !isVisible;
+          if (isVisible) visibleCount += 1;
+        });
+        filterStatus.textContent = `${visibleCount} ${filter === "all" ? "designs" : `${filter} designs`} shown.`;
+      });
+    });
+
+    menuToggle.addEventListener("click", () => {
+      const isOpen = menuToggle.getAttribute("aria-expanded") === "true";
+      menuToggle.setAttribute("aria-expanded", String(!isOpen));
+      menuToggle.setAttribute("aria-label", isOpen ? "Open navigation" : "Close navigation");
+      mainLinks.classList.toggle("is-open", !isOpen);
+    });
+    mainLinks.querySelectorAll("a").forEach((link) => {
+      link.addEventListener("click", () => {
+        mainLinks.classList.remove("is-open");
+        menuToggle.setAttribute("aria-expanded", "false");
+        menuToggle.setAttribute("aria-label", "Open navigation");
+      });
+    });
+  </script>
+</body>
+</html>
